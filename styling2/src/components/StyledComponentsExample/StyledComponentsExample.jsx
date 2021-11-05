@@ -15,9 +15,49 @@ export default function StyledComponentsExample() {
     background: papayawhip;
   `;
 
+  const Button = styled.button`
+    /* Adapt the colors based on primary prop */
+    background: ${(props) => (props.primary ? "palevioletred" : "white")};
+    color: ${(props) => (props.primary ? "white" : "palevioletred")};
+
+    font-size: 1em;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid palevioletred;
+    border-radius: 3px;
+  `;
+
+  // A new component based on Button, but with some override styles
+  const TomatoButton = styled(Button)`
+    color: tomato;
+    border-color: tomato;
+  `;
+
+  const ReversedButton = (props) => (
+    <Button {...props} children={props.children.split("").reverse()} />
+  );
+
   return (
-    <Wrapper>
-      <Title>Hello World!</Title>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Title>Hello World!</Title>
+      </Wrapper>
+      <Button onClick={() => alert("normal")}>Normal</Button>
+      <Button onClick={() => alert("primary")} primary>
+        Primary
+      </Button>
+      <TomatoButton>Tomato</TomatoButton>
+      <br />
+      <Button as="a" href="#">
+        Link with Button styles
+      </Button>
+      <TomatoButton as="a" href="#">
+        Link with Tomato Button styles
+      </TomatoButton>
+      <br />
+      <Button as={ReversedButton}>
+        Custom Button with Normal Button styles
+      </Button>
+    </>
   );
 }
